@@ -1,8 +1,8 @@
 schema_version: 1
 
 name: "rhpam-7/rhpam-kogito-builder-rhel8"
-version: "7.11.0"
-from: "registry.redhat.io/ubi8/ubi-minimal:latest"
+version: "7.13.3"
+from: "registry.redhat.io/quarkus/mandrel-21-rhel8:21.3"
 description: "RHPAM Platform for building Kogito based on Quarkus or SpringBoot"
 
 labels:
@@ -46,12 +46,10 @@ modules:
     - name: org.kie.kogito.system.user
     - name: org.kie.kogito.logging
     - name: org.kie.kogito.launch.scripts
-    - name: org.kie.kogito.graalvm.installer
-      version: "22.2.0-java-11"
-    - name: org.kie.kogito.graalvm.scripts
     - name: org.kie.kogito.openjdk
       version: "11"
     - name: org.kie.kogito.dynamic.resources
+    - name: org.kie.kogito.graalvm.scripts
     - name: org.kie.kogito.maven
       version: "3.8-rpm"
     - name: org.kie.kogito.s2i.core
@@ -59,6 +57,7 @@ modules:
     - name: org.kie.kogito.rhpam.prod.profile
 
 packages:
+  manager: dnf
   content_sets_file: content_sets.yaml
   install:
     - bc
@@ -82,4 +81,9 @@ osbs:
     branch: rhba-7-rhel-8
 
 run:
+  user: "1001"
   workdir: "/home/kogito"
+  cmd:
+    - /usr/local/s2i/run
+  # override the entrypoint to nothing and rely on the CMD.
+  entrypoint: []

@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [[ "${JBOSS_IMAGE_NAME}" =~ mandrel* ]]; then
+  # if the builder image is bamoe or rhpam, remove the quarkus user and add kogito instead.
+  userdel -f -r quarkus
+fi
+
 groupadd -r kogito -g 1001 && useradd -u 1001 -r -g root -G "${USER}" -m -d "${KOGITO_HOME}" -s /sbin/nologin -c "Kogito user" ${USER}
 
 mkdir "${KOGITO_HOME}"/bin

@@ -12,4 +12,8 @@ SCRIPT_DIR=$(dirname "${0}")
 
 cp -v "${SCRIPT_DIR}"/added/* "${KOGITO_HOME}"/launch/
 
-/usr/share/graalvm/bin/gu -L install "${SOURCES_DIR}"/native-image-installable-svm-java"${GRAALVM_JAVA_VERSION}"-linux-amd64-"${GRAALVM_VERSION}".jar
+if [[ ! "${JBOSS_IMAGE_NAME}" =~ mandrel* ]]; then
+  # there is no need to install it on RHPAM Builder since the base image is Quarkus Mandrel.
+  /usr/share/graalvm/bin/gu -L install "${SOURCES_DIR}"/native-image-installable-svm-java"${GRAALVM_JAVA_VERSION}"-linux-amd64-"${GRAALVM_VERSION}".jar
+fi
+

@@ -63,3 +63,7 @@ packages:
 
 run:
   workdir: "/home/kogito"
+  user: 1001
+  entrypoint: []
+  cmd:
+    - "/usr/local/s2i/run"

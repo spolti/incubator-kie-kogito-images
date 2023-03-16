@@ -7,3 +7,16 @@ SCRIPT_DIR=$(dirname "${0}")
 mkdir "${KOGITO_HOME}"/.m2
 cp -v "${SCRIPT_DIR}"/maven/* "${KOGITO_HOME}"/.m2
 cp -v "${SCRIPT_DIR}"/added/* "${KOGITO_HOME}"/launch/
+
+
+# maven pulls in jdk17, so we need to remove it.
+if ! readlink /etc/alternatives/java | grep -q "java-17"; then
+    for pkg in java-17-openjdk-devel \
+               java-17-openjdk-headless \
+               java-17-openjdk; do
+        if rpm -q "$pkg"; then
+            rpm -e --nodeps "$pkg"
+        fi
+    done
+fi
+
